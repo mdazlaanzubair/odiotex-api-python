@@ -57,7 +57,6 @@ def transcribe():
         transcript_id = transcribeFile(
             upload_audio_url, env_vars["api_key"], env_vars["transcribe"]
         )
-        print("\n\ntranscript_id:", transcript_id, "\n\n")
 
         # CHECKING IF TRANSCRIPTION IS COMPLETED OR OTHERWISE
         transcript = checkTranscription(
@@ -65,8 +64,7 @@ def transcribe():
         )
 
         # returning transcript of the video
-        print("\n\ntranscript:", transcript, "\n\n")
-        return jsonify({"transcript": transcript})
+        return jsonify({"data": transcript})
 
     else:
         return jsonify({"msg": "File doesn't exist!"})

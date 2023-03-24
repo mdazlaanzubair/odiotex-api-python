@@ -28,7 +28,11 @@ def transcribeFile(upload_url, api_key, transcribe_endpoint):
     # First - creating transcribe request payload and headers
     transcript_request = {
         "audio_url": upload_url,
-        "iab_categories": True,
+        "auto_highlights": True,
+        "auto_chapters": True,
+        "entity_detection": True,
+        # "summarization": True,
+        # "summary_model": "informative",
     }
 
     # Second - preparing header
@@ -67,4 +71,12 @@ def checkTranscription(transcript_id, api_key, transcribe_endpoint):
             return check_trans_res.json()["status"]
 
     # Fifth - once transcription is completed, return the transcription text
-    return check_trans_res.json()["text"]
+    # preparing response dictionary / json
+    res_data = {
+        "transcript": check_trans_res.json()["text"],
+        "chapters": check_trans_res.json()["chapters"],
+        "highlights": check_trans_res.json()["auto_highlights_result"],
+        "entities": check_trans_res.json()["entities"],
+    }
+
+    return res_data
